@@ -87,8 +87,7 @@ scene.add(sunLight)
 ///// LOADING GLB/GLTF MODEL FROM BLENDER
 console.log("loading model before")
 
-
-// Load a GLTF resource
+// ！更改此路径可加载自定义模型
 const modelUrl = 'models/gltf/starter-scene.glb'
 
 loader.load(
@@ -99,24 +98,12 @@ loader.load(
         console.log("loading model");
         scene.add(gltf.scene);
         for (const child of gltf.scene.children) {
-                // continue;
-                //if (child.isMesh) {
-                // console.log('child been added')
-                // const result = threeToCannon(child)
-                // const body = new CANNON.Body({ mass: 100 })
-                // // Result object includes a CANNON.Shape instance, and (optional)
-                // // an offset or quaternion for that shape.
-                // const { shape, offset, quaternion } = result;
-                // body.addShape(shape, 0, quaternion);
-
-
-                // // fix the cannon body if it is the ground
-                // body.type = CANNON.Body.STATIC
-
-                // world.addBody(body);
-            worldOctree.fromGraphNode(child);
+            /// 这里将选定的子节点都加入到八叉树中，可加判断条件
+            // if(child.name.substring(0,10) == "BJYDDXTREE")
+            worldOctree.fromGraphNode(child); // 加入八叉树结构
         }
         console.log(worldOctree.subTrees)
+        /// 八叉树可视化
         const helper = new OctreeHelper(worldOctree);
         helper.visible = true;
         scene.add(helper);
